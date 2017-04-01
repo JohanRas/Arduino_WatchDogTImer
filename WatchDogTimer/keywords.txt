@@ -1,0 +1,4 @@
+watchDogTimer	KEYWORD1
+setup    KEYWORD2
+reset	KEYWORD2
+resetArduino	KEYWORD2
