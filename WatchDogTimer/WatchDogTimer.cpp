@@ -25,7 +25,7 @@ void WatchDogTimerClass::reset()
 
 void WatchDogTimerClass::resetArduino()
 {
-	this->setup(0, false, true);  	//kortste time-out, interrupt uit en reset aan
+	this->setup(0, true, false);  	//kortste time-out, reset aan en interrupt aan
 	while(true);					//wacht op de watchdog time-out
 }
 
