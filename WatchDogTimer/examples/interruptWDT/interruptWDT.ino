@@ -1,11 +1,17 @@
 #include <WatchDogTimer.h>
 
-#define LED LED_BUILTIN
+#define LED 13
+#define LEDPORT PORTB
+#define LEDBIT 0x20
 
-bool ledStatus = false;
+//moet volatile zijn omdat hij in de isr gebruikt wordt
+volatile bool wdtTimeout = false;
 
 void setup()
 {
+  Serial.begin(9600);
+  Serial.write("startup\n\r");
+  
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);
 
@@ -17,11 +23,18 @@ void setup()
 void loop()
 {
   delay(10);  
-  digitalWrite(LED, ledStatus);
+
+  if(wdtTimeout)
+  {
+    LEDPORT ^= LEDBIT; //toggle led
+    Serial.write("wdt timeout\n\r");
+    wdtTimeout = false;
+  }
 }
 
 
+// deze functie wordt aangeroepen door de watchdog. gebruik in de ISR geen lange/blokeerende functies/loops
 ISR(WDT_vect)
 {
-  ledStatus = !ledStatus;
+  wdtTimeout = true;
 }

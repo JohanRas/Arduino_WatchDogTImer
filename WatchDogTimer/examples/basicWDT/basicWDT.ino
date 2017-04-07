@@ -1,14 +1,17 @@
 #include <WatchDogTimer.h>
 
 #define LED LED_BUILTIN
-#define BUTTON 1
+#define BUTTON 2
 
 void setup() 
 { 
   pinMode(LED, OUTPUT);
-  pinMode(BUTTON, INPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
 
   // maak reset duidelijk zichtbaar
+  Serial.begin(9600);
+  Serial.write("startup\r\n");
+  
   digitalWrite(LED, LOW);
   delay(1000);
   digitalWrite(LED, HIGH);
@@ -23,8 +26,8 @@ void setup()
 
 void loop() 
 {
-  //rest de processor door de knop in te houden (1 seconde). Door de while loop wordt de wdt niet gereset
-  while(digitalRead(BUTTON));
+  //rest de processor door gpio2 aan GND vast te maken voor 1 seconde (1 seconde). Door de while loop wordt de wdt niet gereset
+  while(!digitalRead(BUTTON));
 
   //reset de timer
   watchDogTimer.reset();      
