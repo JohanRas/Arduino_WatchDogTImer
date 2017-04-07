@@ -3,13 +3,14 @@
 #define BUTTON 2
 #define LED LED_BUILTIN
 
+//connect a button between gpio2 and GND
 
 void setup() 
 {
   pinMode(BUTTON, INPUT_PULLUP);
   pinMode(LED, OUTPUT);
 
-  //maak reset duidelijk zichtbaar
+  //make reset easily visible
   Serial.begin(9600);
   Serial.write("startup\r\n");
   
@@ -21,7 +22,7 @@ void setup()
 
 void loop() 
 {
-  //maak gpio laag om de ATMEGA te resetten
+  //push the button to reset the arduino
   if(!digitalRead(BUTTON))
   {  
     watchDogTimer.resetArduino();

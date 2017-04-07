@@ -1,21 +1,20 @@
 #include <WatchDogTimer.h>
 
-#define LED 13
-#define LEDPORT PORTB
-#define LEDBIT 0x20
+#define LED LED_BUILTIN
 
-//moet volatile zijn omdat hij in de isr gebruikt wordt
+// this boolean has to be volatile because it is used in the IRS (interrupt service routine)
 volatile bool wdtTimeout = false;
 
 void setup()
 {
+  //make startup easily visible
   Serial.begin(9600);
   Serial.write("startup\n\r");
   
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);
 
-  //watchdog setup zonder reset met interrupt
+  //watchdog setup without reset with interrupt
   watchDogTimer.setup(WDT_1S, false, true);
 }
 
@@ -24,16 +23,18 @@ void loop()
 {
   delay(10);  
 
+  //this boolean is set true by the ISR
   if(wdtTimeout)
   {
-    LEDPORT ^= LEDBIT; //toggle led
+	//toggle led
+    digitalWrite(LED, !digitalRead(LED));
     Serial.write("wdt timeout\n\r");
     wdtTimeout = false;
   }
 }
 
 
-// deze functie wordt aangeroepen door de watchdog. gebruik in de ISR geen lange/blokeerende functies/loops
+// this is the ISR that gets called on the watchdog timeout. prevent using long and blocking functions or loops in the ISR
 ISR(WDT_vect)
 {
   wdtTimeout = true;

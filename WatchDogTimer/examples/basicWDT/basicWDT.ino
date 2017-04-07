@@ -3,12 +3,14 @@
 #define LED LED_BUILTIN
 #define BUTTON 2
 
+//connect a button between gpio2 and GND
+
 void setup() 
 { 
   pinMode(LED, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
 
-  // maak reset duidelijk zichtbaar
+  // make startup easily 
   Serial.begin(9600);
   Serial.write("startup\r\n");
   
@@ -16,8 +18,8 @@ void setup()
   delay(1000);
   digitalWrite(LED, HIGH);
 
-  // zet de watchdog timer aan met als interval 1s, In reset mode zonder interrupt.
-  // mogelijke intervallen zijn: 
+  // enable watchdog timer with interval an 1 second interval, in reset mode and without interrupt
+  // possible intervals are: 
   // WDT_16MS, WDT_32MS, WDT_64MS, WDT_128MS, WDT_256MS, WDT_512MS, 
   // WDT_1S, WDT_2S, WDT_4S, WDT_8S 
   watchDogTimer.setup(WDT_1S , true, false);
@@ -26,9 +28,9 @@ void setup()
 
 void loop() 
 {
-  //reset de processor door gpio2 aan GND vast te maken voor 1 seconde (1 seconde). Door de while loop wordt de wdt niet gereset
+  // press the button for 1s to let the watchdog timer timeout
   while(!digitalRead(BUTTON));
 
-  //reset de timer
+  // reset the watchdog timer
   watchDogTimer.reset();      
 }
