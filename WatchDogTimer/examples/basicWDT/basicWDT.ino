@@ -26,7 +26,7 @@ void setup()
 
 void loop() 
 {
-  //rest de processor door gpio2 aan GND vast te maken voor 1 seconde (1 seconde). Door de while loop wordt de wdt niet gereset
+  //reset de processor door gpio2 aan GND vast te maken voor 1 seconde (1 seconde). Door de while loop wordt de wdt niet gereset
   while(!digitalRead(BUTTON));
 
   //reset de timer
