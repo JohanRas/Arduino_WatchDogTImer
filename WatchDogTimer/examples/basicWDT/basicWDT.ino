@@ -10,7 +10,7 @@ void setup()
   pinMode(LED, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
 
-  // make startup easily 
+  // make startup easily visible
   Serial.begin(9600);
   Serial.write("startup\r\n");
   
@@ -18,7 +18,7 @@ void setup()
   delay(1000);
   digitalWrite(LED, HIGH);
 
-  // enable watchdog timer with interval an 1 second interval, in reset mode and without interrupt
+  // enable watchdog timer with interval a 1 second interval, in reset mode and without interrupt
   // possible intervals are: 
   // WDT_16MS, WDT_32MS, WDT_64MS, WDT_128MS, WDT_256MS, WDT_512MS, 
   // WDT_1S, WDT_2S, WDT_4S, WDT_8S 
