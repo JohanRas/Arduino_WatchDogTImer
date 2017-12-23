@@ -23,10 +23,10 @@ void loop()
 {
   delay(10);  
 
-  //this boolean is set true by the ISR
+  //this boolean is set to true by the ISR
   if(wdtTimeout)
   {
-	//toggle led
+    //toggle led
     digitalWrite(LED, !digitalRead(LED));
     Serial.write("wdt timeout\n\r");
     wdtTimeout = false;
